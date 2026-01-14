@@ -44,6 +44,7 @@
 3. docker node ls
 4. docker stack deploy -c docker-compose.yml rwaj
 5. docker services logs rwaj_backend -f
+6. docker services logs rwaj_livekit -f
 
 ## to clean the containers
 1. docker stack rm rwaj
