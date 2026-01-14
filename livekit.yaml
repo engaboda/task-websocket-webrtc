@@ -1,0 +1,13 @@
+keys:
+  - key: API7vK4jxz9TSBX
+    secret: Wx2OG9LvONllcw6DRVotM29dZ3s7aFkoUZvUJJKa7CL
+
+rtc:
+  port: 7882
+  udp_port_range: 7882-7883
+
+http:
+  port: 7880
+
+signal:
+  port: 7881

@@ -43,6 +43,24 @@ services:
     networks:
       - appnet
 
+  livekit:
+    image: livekit/livekit-server:latest
+    container_name: livekit_server
+    ports:
+      - "7880:7880"  # WebRTC & REST
+      - "7881:7881"  # WebRTC signaling (WS/WSS)
+      - "7882:7882"  # optional metrics
+    environment:
+      LIVEKIT_KEYS: "API7vK4jxz9TSBX: Wx2OG9LvONllcw6DRVotM29dZ3s7aFkoUZvUJJKa7CL"  # format: key: secret
+    volumes:
+      - ./livekit.yaml:/etc/livekit.yaml
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+    networks:
+      - appnet
+
 networks:
   appnet:
     driver: overlay

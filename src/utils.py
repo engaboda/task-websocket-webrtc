@@ -42,21 +42,21 @@ async def publish_to_channel(message: str, product_id: int) -> None:
         logger.exception(f'error: {error} while sending message: {message} to product: {product_id}')
 
 
-async def create_livekit_room(room_name, user_email: str, product_id: int):
+async def create_livekit_room(room_name, username: str, product_id: int):
     lkapi = api.LiveKitAPI(
         url=settings.livekit.url,
         api_key=settings.livekit.api_key,
-        api_secret=settings.livekit.api_secret,
+        api_secret=settings.livekit.secret_key,
     )
     # Create a room
     room = await lkapi.room.create_room(
         api.CreateRoomRequest(name=room_name)
     )
 
-    logger.info(f'room: {room} created for user: {user_email} for product: {product_id}')
+    logger.info(f'room: {room} created for user: {username} for product: {product_id}')
 
     # Generate access token for the user
-    token = api.AccessToken().with_identity(user_email).with_name(room_name).with_grants(
+    token = api.AccessToken().with_identity(username).with_name(username).with_grants(
         api.VideoGrants(
             room_join=True,
             room=room_name,

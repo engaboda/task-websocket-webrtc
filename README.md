@@ -16,6 +16,23 @@
 2. {{url}}/{{prefix}}/products/{{product_id}}/highest-bids
 3. {{url}}/{{prefix}}/products/{{product_id}}/bids
 4. {{url}}/{{prefix}}/products
+5. {{url}}/{{prefix}}/products/{{product_id}}/new-room
+```New Room Response
+{
+    "id": 6,
+    "room_name": "Room-Product-1-Owner-aboda",
+    # with permission [can sub, can pub, can pub data]
+    "token": ""
+}
+```
+6. {{url}}/{{prefix}}/rooms/{{room_id}}/join-room
+```Joining Room Response
+{
+    "room_name": "Room-Product-1-Owner-aboda",
+    # with permission [can sub]
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlci1haG1lZCIsInZpZGVvIjp7InJvb21BZG1pbiI6ZmFsc2UsInJvb21Kb2luIjp0cnVlLCJyb29tIjoiUm9vbS1Qcm9kdWN0LTEtT3duZXItYWJvZGEiLCJjYW5QdWJsaXNoIjpmYWxzZSwiY2FuU3Vic2NyaWJlIjp0cnVlLCJjYW5QdWJsaXNoRGF0YSI6ZmFsc2V9LCJzdWIiOiJ1c2VyLWFobWVkIiwiaXNzIjoiQVBJN3ZLNGp4ejlUU0JYIiwibmJmIjoxNzY4NDAxNTU0LCJleHAiOjE3Njg0MjMxNTR9.lXBHwT0hdbZVgSp0rxH_b2tVXTXSX8HOoxv0nGBiZnk"
+}
+```
 
 ## websocket App Provide
 1. ws://localhost:8000/ws/notifications/products/{{product_id}}/bids

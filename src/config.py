@@ -62,7 +62,8 @@ class RedisConfig(BaseSettings):
 
 
 class LiveKitConfig(BaseSettings):
-    url: str = Field(default="wss://gotry-8fsnin9o.livekit.cloud", env='LIVEKIT_WS_URL')
+    # url wss://gotry-8fsnin9o.livekit.cloud
+    url: str = Field(default="ws://livekit:7880", env='LIVEKIT_WS_URL')
     api_key: str = Field(default='API7vK4jxz9TSBX', env='LIVEKIT_API_KEY')
     secret_key: str = Field(default='Wx2OG9LvONllcw6DRVotM29dZ3s7aFkoUZvUJJKa7CL', env='LIVEKIT_API_SECRET')
 

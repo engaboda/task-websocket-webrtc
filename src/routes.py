@@ -16,7 +16,8 @@ from src.db.engine import RwajSession
 from src.db.models import Product, Bids, User, Room
 from src.serializers import (
     ProductResponseListSerializer, HighestBidPriceSerializer, CreateBidSerializer,
-    BidInformationSerializer, CreateRoomSerializer, RoomInformation, JoinRoomSerializer
+    BidInformationSerializer, CreateRoomSerializer, RoomInformation, JoinRoomSerializer,
+    RoomJoiningInformationResponse
 )
 from src.utils import publish_to_channel, create_livekit_room, create_livekit_read_only_viewer
 
@@ -196,7 +197,7 @@ class NotificationEndpoint(WebSocketEndpoint):
 rwaj_routers.add_websocket_route('/ws/notifications/products/{product_id}/bids', NotificationEndpoint)
 
 
-@rwaj_routers.post('products/{product_id}/new-room', status_code=201, response_model=RoomInformation)
+@rwaj_routers.post('/products/{product_id}/new-room', status_code=201, response_model=RoomInformation)
 async def new_room(product_id: int, data: CreateRoomSerializer):
     async with RwajSession() as session:
         products = await session.execute(
@@ -233,14 +234,15 @@ async def new_room(product_id: int, data: CreateRoomSerializer):
         await session.commit()
         await session.refresh(room)
 
-        room_name, token = await create_livekit_room(room_name, user.email, product_id)
+        room_name, token = await create_livekit_room(room_name, data.username, product_id)
         return {
             'id': room.id,
             'room_name': room_name,
+            "token": token
         }
 
 
-@rwaj_routers.post('/rooms/{room_id}/join-room', status_code=201, response_model=RoomInformation)
+@rwaj_routers.post('/rooms/{room_id}/join-room', status_code=201, response_model=RoomJoiningInformationResponse)
 async def join_room(room_id: int, data: JoinRoomSerializer):
     async with RwajSession() as session:
         rooms = await session.execute(
@@ -257,6 +259,9 @@ async def join_room(room_id: int, data: JoinRoomSerializer):
         if not room:
             raise HTTPException(status_code=404, detail="Stream not found")
 
-        room_name = f'Room-Product-{room.prduct.id}-Owner-{room.user.username}'
+        room_name = f'Room-Product-{room.product.id}-Owner-{room.user.username}'
         token = await create_livekit_read_only_viewer(data.username, room_name)
-        return room_name, token
+        return {
+            "room_name": room_name,
+            "token": token
+        }

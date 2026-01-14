@@ -45,3 +45,9 @@ JoinRoomSerializer = CreateRoomSerializer
 class RoomInformation(BaseModel):
     id: int
     room_name: str
+    token: str
+
+
+class RoomJoiningInformationResponse(BaseModel):
+    room_name: str
+    token: str
